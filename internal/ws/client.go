@@ -22,7 +22,7 @@ type Message struct {
 
 func (c *Client) writeMessage() {
 	defer func() {
-		c.Conn.Close()
+		_ = c.Conn.Close()
 	}()
 
 	for {
@@ -31,14 +31,14 @@ func (c *Client) writeMessage() {
 			return
 		}
 
-		c.Conn.WriteJSON(message)
+		_ = c.Conn.WriteJSON(message)
 	}
 }
 
 func (c *Client) readMessage(hub *Hub) {
 	defer func() {
 		hub.Unregister <- c
-		c.Conn.Close()
+		_ = c.Conn.Close()
 	}()
 
 	for {
